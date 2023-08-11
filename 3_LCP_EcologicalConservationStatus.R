@@ -1,6 +1,6 @@
 ############ Ecological/conservation status of climate corridors ##############
 # Date: 8-1-23
-# updated: 8-10-23; add end node % protection
+# updated: 8-11-23; reexport plots with updated data
 # Author: Ian McCullough, immccull@gmail.com
 ###############################################################################
 
@@ -396,6 +396,7 @@ end_node_area_plot <- ggplot(data=end_nodes_elev_df, aes(x=are_km2))+
   theme(axis.text.x = element_text(color='black'),
            axis.text.y=element_text(color='black'),
            axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
            axis.title.y=element_blank())
 end_node_area_plot
 # jpeg('Figures/end_node_area_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -411,6 +412,7 @@ end_node_elevation_plot <- ggplot(data=end_nodes_elev_df, aes(x=range_m))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 end_node_elevation_plot
 # jpeg('Figures/end_node_elevation_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -426,6 +428,7 @@ LCP_pct_protected_plot <- ggplot(data=LCPs_PAs_df, aes(x=all_pa_pct_overlap))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 LCP_pct_protected_plot
 # jpeg('Figures/corridor_pct_protected_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -441,6 +444,7 @@ LCP_PAcount_plot <- ggplot(data=LCPs_PAs_df, aes(x=nPAs))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 LCP_PAcount_plot
 # jpeg('Figures/corridor_PA_count_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -456,6 +460,7 @@ LCP_KBAcount_plot <- ggplot(data=LCPs_PAs_df, aes(x=nKBAs))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 LCP_KBAcount_plot
 # jpeg('Figures/corridor_KBA_count_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -472,6 +477,7 @@ LCP_length_plot <- ggplot(data=LCPs_PAs_df, aes(x=LCP_length_km))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 LCP_length_plot
 # jpeg('Figures/corridor_length_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -489,6 +495,7 @@ LCP_elevation_plot <- ggplot(data=LCPs_buffer100m_elev_df, aes(x=range_m))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 LCP_elevation_plot
 # jpeg('Figures/corridor_elevation_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -505,6 +512,7 @@ LCP_biomass_plot <- ggplot(data=LCPs_biomass_df, aes(x=biomass_mean))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 LCP_biomass_plot
 # jpeg('Figures/corridor_biomass_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
@@ -546,11 +554,12 @@ LCP_bordercrossing_plot <- ggplot(data=bordercrossing_df, aes(x=nCountries))+
   theme(axis.text.x = element_text(color='black'),
         axis.text.y=element_text(color='black'),
         axis.title.x=element_text(size=9),
+        plot.title=element_text(size=12),
         axis.title.y=element_blank())
 LCP_bordercrossing_plot
-jpeg('Figures/countries_crossed_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
-   LCP_bordercrossing_plot
-dev.off()
+# jpeg('Figures/countries_crossed_plot.jpeg',width = 7,height = 5,units = 'in',res=600)
+#    LCP_bordercrossing_plot
+# dev.off()
 
 #### Country-level analysis of corridor ecological/conservation status ####
 LCP_datasets <- list(LCPs_PAs_df, LCPs_biomass_df, LCPs_buffer100m_elev_df, bordercrossing_df)
@@ -602,6 +611,10 @@ full_LCP_df7 <- subset(full_LCP_df, iso_a3 %in% c('BLZ','CRI','GTM','NIC','HND',
 country_colors7 <- c('BLZ'='blue','CRI'='forestgreen','GTM'='orange','HND'='firebrick',
                      'NIC'='turquoise','PAN'='khaki','SLV'='chartreuse')
 
+country_colors <- c('BLZ'='blue','COL'='gold','CRI'='forestgreen','GTM'='orange','HND'='firebrick',
+                    'MEX'='gray','NIC'='turquoise','PAN'='khaki','SLV'='chartreuse')
+
+
 nrow(subset(full_LCP_df7, nCountries==1))
 nrow(subset(full_LCP_df7, nCountries==2))
 nrow(subset(full_LCP_df7, nCountries==3))
@@ -620,87 +633,87 @@ primary_country_LCP_summary <- full_LCP_df %>%
                    totalLCP_length_km=sum(LCP_length_km))%>%
   as.data.frame()
 
-country_corridor_length_plot <- ggplot(data=as.data.frame(full_LCP_df7), aes(y=LCP_length_km, x=iso_a3, fill=iso_a3)) +
+country_corridor_length_plot <- ggplot(data=full_LCP_df, aes(y=LCP_length_km, x=iso_a3, fill=iso_a3)) +
   geom_boxplot()+
   theme_classic()+
-  theme(axis.text.x=element_text(color='black'),
-        axis.text.y=element_text(color='black'),
+  theme(axis.text.x=element_text(color='black', size=8, angle=25),
+        axis.text.y=element_text(color='black', size=8),
         axis.title.x=element_blank(),
         plot.title=element_text(size=12),
         legend.position=c('none'))+
   scale_y_continuous(name='Corridor length (km)', limits=c())+
   scale_x_discrete(name='Country')+
-  scale_fill_manual(values=country_colors7)+
+  scale_fill_manual(values=country_colors)+
   ggtitle("a) Corridor length")
 country_corridor_length_plot
 
-country_corridor_pct_protection_plot <- ggplot(data=as.data.frame(full_LCP_df7), aes(y=all_pa_pct_overlap, x=iso_a3, fill=iso_a3)) +
+country_corridor_pct_protection_plot <- ggplot(data=full_LCP_df, aes(y=all_pa_pct_overlap, x=iso_a3, fill=iso_a3)) +
   geom_boxplot()+
   theme_classic()+
-  theme(axis.text.x=element_text(color='black'),
-        axis.text.y=element_text(color='black'),
+  theme(axis.text.x=element_text(color='black', size=8, angle=25),
+        axis.text.y=element_text(color='black', size=8),
         axis.title.x=element_blank(),
         plot.title=element_text(size=12),
         legend.position=c('none'))+
-  scale_y_continuous(name='Protection (%)', limits=c())+
+  scale_y_continuous(name='Protected (%)', limits=c())+
   scale_x_discrete(name='Country')+
-  scale_fill_manual(values=country_colors7)+
+  scale_fill_manual(values=country_colors)+
   ggtitle("c) Percent protected")
 country_corridor_pct_protection_plot
 
-country_corridor_count_protection_plot <- ggplot(data=as.data.frame(full_LCP_df7), aes(y=nPAs, x=iso_a3, fill=iso_a3)) +
+country_corridor_count_protection_plot <- ggplot(data=full_LCP_df, aes(y=nPAs, x=iso_a3, fill=iso_a3)) +
   geom_boxplot()+
   theme_classic()+
-  theme(axis.text.x=element_text(color='black'),
-        axis.text.y=element_text(color='black'),
+  theme(axis.text.x=element_text(color='black', size=8, angle=25),
+        axis.text.y=element_text(color='black', size=8),
         axis.title.x=element_blank(),
         plot.title=element_text(size=12),
         legend.position=c('none'))+
   scale_y_continuous(name='Number of overlapping PAs', limits=c())+
   scale_x_discrete(name='Country')+
-  scale_fill_manual(values=country_colors7)+
+  scale_fill_manual(values=country_colors)+
   ggtitle("d) Number of overlapping PAs")
 country_corridor_count_protection_plot
 
-country_corridor_count_KBA_plot <- ggplot(data=as.data.frame(full_LCP_df7), aes(y=nKBAs, x=iso_a3, fill=iso_a3)) +
+country_corridor_count_KBA_plot <- ggplot(data=full_LCP_df, aes(y=nKBAs, x=iso_a3, fill=iso_a3)) +
   geom_boxplot()+
   theme_classic()+
-  theme(axis.text.x=element_text(color='black'),
-        axis.text.y=element_text(color='black'),
+  theme(axis.text.x=element_text(color='black', size=8, angle=25),
+        axis.text.y=element_text(color='black', size=8),
         axis.title.x=element_blank(),
         plot.title=element_text(size=12),
         legend.position=c('none'))+
   scale_y_continuous(name='Number of KBAs', limits=c())+
   scale_x_discrete(name='Country')+
-  scale_fill_manual(values=country_colors7)+
+  scale_fill_manual(values=country_colors)+
   ggtitle("e) Number of overlapping KBAs")
 country_corridor_count_KBA_plot
 
-country_corridor_biomass_plot <- ggplot(data=as.data.frame(full_LCP_df7), aes(y=biomass_mean, x=iso_a3, fill=iso_a3)) +
+country_corridor_biomass_plot <- ggplot(data=full_LCP_df, aes(y=biomass_mean, x=iso_a3, fill=iso_a3)) +
   geom_boxplot()+
   theme_classic()+
-  theme(axis.text.x=element_text(color='black'),
-        axis.text.y=element_text(color='black'),
+  theme(axis.text.x=element_text(color='black', size=8, angle=25),
+        axis.text.y=element_text(color='black', size=8),
         axis.title.x=element_blank(),
         plot.title=element_text(size=12),
         legend.position=c('none'))+
   scale_y_continuous(name='Mean forest biomass', limits=c())+
   scale_x_discrete(name='Country')+
-  scale_fill_manual(values=country_colors7)+
+  scale_fill_manual(values=country_colors)+
   ggtitle("f) Forest biomass")
 country_corridor_biomass_plot
 
-country_corridor_elevation_plot <- ggplot(data=as.data.frame(full_LCP_df7), aes(y=range_m, x=iso_a3, fill=iso_a3)) +
+country_corridor_elevation_plot <- ggplot(data=full_LCP_df, aes(y=range_m, x=iso_a3, fill=iso_a3)) +
   geom_boxplot()+
   theme_classic()+
-  theme(axis.text.x=element_text(color='black'),
-        axis.text.y=element_text(color='black'),
+  theme(axis.text.x=element_text(color='black', size=8, angle=25),
+        axis.text.y=element_text(color='black', size=8),
         axis.title.x=element_blank(),
         plot.title=element_text(size=12),
         legend.position=c('none'))+
   scale_y_continuous(name='Elevational breadth (m)', limits=c())+
   scale_x_discrete(name='Country')+
-  scale_fill_manual(values=country_colors7)+
+  scale_fill_manual(values=country_colors)+
   ggtitle("b) Elevational breadth")
 country_corridor_elevation_plot
 
