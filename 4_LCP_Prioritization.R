@@ -1,6 +1,6 @@
 ##################### Climate corridor prioritization #########################
 # Date: 8-8-23
-# updated: 8-10-23; add in MX and COL, end node % protection
+# updated: 8-10-23; add in MX and COL, end node % protection, boxplots
 # Author: Ian McCullough, immccull@gmail.com
 ###############################################################################
 
@@ -13,6 +13,8 @@ library(scatterplot3d)
 library(colorspace)
 library(gplots)
 library(dplyr)
+library(ggplot2)
+library(gridExtra)
 
 #### Input data ####
 setwd("C:/Users/immcc/Documents/climate_corridor_data_analysis")
@@ -149,3 +151,140 @@ LCPs <- terra::project(LCPs, "EPSG:31971")
 
 LCPs_priority_index <- terra::merge(LCPs, pca_scores, by='crrdr_d')
 #terra::writeVector(LCPs_priority_index, "paper_data/corridors/LCP_priority_index.shp", overwrite=T)
+
+#### Comparing characteristics of high, medium and low priority corridors ####
+# perhaps a bit circular, but helps interpretation
+
+full_LCP_PCA_df <- merge(full_LCP_df, pca_scores[,c(12:14)], by='crrdr_d')
+full_LCP_PCA_df$priority_index_level <- factor(full_LCP_PCA_df$priority_index_level, levels=c('High','Medium','Low'))
+
+boxplot(LCP_length_km ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Corridor length', ylab='km')
+boxplot(all_pa_pct_overlap ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Corridor % protected', ylab='%')
+boxplot(nPAs ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Overlapping protected areas', ylab='Number')
+boxplot(nKBAs ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Overlapping KBAs', ylab='Number')
+boxplot(biomass_mean ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Corridor mean forest biomass', ylab='Mt C')
+boxplot(range_m ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Corridor elevational breadth', ylab='m')
+boxplot(nCountries ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Ocountries crossed', ylab='Number')
+boxplot(are_km2 ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='End node area', ylab='km2')#, ylim=c(0,1000))
+boxplot(endnode_elevrange_m ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='End node elevational breadth', ylab='m')
+boxplot(endnode_pct_protected ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='End node % protected', ylab='%')
+boxplot(StartNode_areakm2 ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Start node area', ylab='km2')
+boxplot(StartNode_elevrange_m ~ priority_index_level, data=full_LCP_PCA_df, las=1,
+        col=c('gold','orange','gray'), xlab='', main='Start node elevational breadth', ylab='m')
+
+# end node % protected
+# end node area (if cut axes)
+# LCP elev range
+# LCP % protected
+# nKBAs
+# nPAs
+
+LCP_length_plot <- ggplot(full_LCP_PCA_df, aes(x=priority_index_level, y=LCP_length_km, fill=priority_index_level)) + 
+  geom_boxplot()+
+  ggtitle('Corridor length')+
+  theme_classic()+
+  theme(axis.text.x=element_text(color='black'),
+        axis.text.y=element_text(color='black'),
+        plot.title=element_text(size=12),
+        legend.position='none')+
+  xlab('Priority index level')+
+  ylab('Distance (km)')+
+  scale_fill_manual(values=c('gold','orange','gray'))
+LCP_length_plot
+
+LCP_elev_plot <- ggplot(full_LCP_PCA_df, aes(x=priority_index_level, y=range_m, fill=priority_index_level)) + 
+  geom_boxplot()+
+  ggtitle('Corridor elevational breadth')+
+  theme_classic()+
+  theme(axis.text.x=element_text(color='black'),
+        axis.text.y=element_text(color='black'),
+        plot.title=element_text(size=12),
+        legend.position='none')+
+  xlab('Priority index level')+
+  ylab('Elevation (m)')+
+  scale_fill_manual(values=c('gold','orange','gray'))
+LCP_elev_plot
+
+LCP_pct_protected_plot <- ggplot(full_LCP_PCA_df, aes(x=priority_index_level, y=all_pa_pct_overlap, fill=priority_index_level)) + 
+  geom_boxplot()+
+  ggtitle('Corridor % protected')+
+  theme_classic()+
+  theme(axis.text.x=element_text(color='black'),
+        axis.text.y=element_text(color='black'),
+        plot.title=element_text(size=12),
+        legend.position='none')+
+  xlab('Priority index level')+
+  ylab('% Protected')+
+  scale_fill_manual(values=c('gold','orange','gray'))
+LCP_pct_protected_plot
+
+LCP_nPAs_plot <- ggplot(full_LCP_PCA_df, aes(x=priority_index_level, y=nPAs, fill=priority_index_level)) + 
+  geom_boxplot()+
+  ggtitle('Overlapping protected areas')+
+  theme_classic()+
+  theme(axis.text.x=element_text(color='black'),
+        axis.text.y=element_text(color='black'),
+        plot.title=element_text(size=12),
+        legend.position='none')+
+  xlab('Priority index level')+
+  ylab('Number of protected areas')+
+  scale_fill_manual(values=c('gold','orange','gray'))
+LCP_nPAs_plot
+
+LCP_KBA_plot <- ggplot(full_LCP_PCA_df, aes(x=priority_index_level, y=nKBAs, fill=priority_index_level)) + 
+  geom_boxplot()+
+  ggtitle('Overlapping KBAs')+
+  theme_classic()+
+  theme(axis.text.x=element_text(color='black'),
+        axis.text.y=element_text(color='black'),
+        plot.title=element_text(size=12),
+        legend.position='none')+
+  xlab('Priority index level')+
+  ylab('Number of KBAs')+
+  scale_fill_manual(values=c('gold','orange','gray'))
+LCP_KBA_plot
+
+endnode_elev_plot <- ggplot(full_LCP_PCA_df, aes(x=priority_index_level, y=endnode_elevrange_m, fill=priority_index_level)) + 
+  geom_boxplot()+
+  ggtitle('End node elevational breadth')+
+  theme_classic()+
+  theme(axis.text.x=element_text(color='black'),
+        axis.text.y=element_text(color='black'),
+        plot.title=element_text(size=12),
+        legend.position='none')+
+  xlab('Priority index level')+
+  ylab('Elevation (m)')+
+  scale_fill_manual(values=c('gold','orange','gray'))
+endnode_elev_plot
+
+endnode_area_plot <- ggplot(full_LCP_PCA_df, aes(x=priority_index_level, y=are_km2, fill=priority_index_level)) + 
+  geom_boxplot()+
+  ggtitle('End node area')+
+  theme_classic()+
+  theme(axis.text.x=element_text(color='black'),
+        axis.text.y=element_text(color='black'),
+        plot.title=element_text(size=12),
+        legend.position='none')+
+  xlab('Priority index level')+
+  #ylab('Area (km2)')+
+  scale_y_continuous(name='Area (km2)', limits=c(0,100))+
+  scale_fill_manual(values=c('gold','orange','gray'))
+endnode_area_plot
+
+# put together into multipanel
+jpeg('Figures/multipanel_LCP_highmedlow_boxplots.jpeg',width = 6,height = 8,units = 'in',res=600)
+grid.arrange(LCP_length_plot, LCP_elev_plot, 
+             LCP_pct_protected_plot, LCP_nPAs_plot, 
+             LCP_KBA_plot, endnode_elev_plot, nrow=3)
+dev.off()
