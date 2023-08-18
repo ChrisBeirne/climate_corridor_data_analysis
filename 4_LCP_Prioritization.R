@@ -1,6 +1,6 @@
 ##################### Climate corridor prioritization #########################
 # Date: 8-8-23
-# updated: 8-14-23; more panels to summary plot, pairwise comps
+# updated: 8-18-23; add significance indicators to plot
 # Author: Ian McCullough, immccull@gmail.com
 ###############################################################################
 
@@ -197,7 +197,7 @@ titlefontsize <- 10
 
 LCP_length_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=LCP_length_km, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('a) Corridor length')+
+  ggtitle('a) Corridor length**')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -211,7 +211,7 @@ LCP_length_plot
 
 LCP_elev_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=range_m, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('b) Corridor elev range')+
+  ggtitle('b) Corridor elev range*')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -225,7 +225,7 @@ LCP_elev_plot
 
 LCP_biomass_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=biomass_mean, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('c) Corridor biomass')+
+  ggtitle('c) Corridor biomass*')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -240,7 +240,7 @@ LCP_biomass_plot
 
 LCP_pct_protected_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=all_pa_pct_overlap, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('d) Corridor % protected')+
+  ggtitle('d) Corridor protected*')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -254,7 +254,7 @@ LCP_pct_protected_plot
 
 LCP_nPAs_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=nPAs, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('e) Corridor PAs')+
+  ggtitle('e) Corridor PAs**')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -268,7 +268,7 @@ LCP_nPAs_plot
 
 LCP_KBA_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=nKBAs, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('f) Corridor KBAs')+
+  ggtitle('f) Corridor KBAs**')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -282,7 +282,7 @@ LCP_KBA_plot
 
 endnode_elev_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=endnode_elevrange_m, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('g) End elev range')+
+  ggtitle('g) End elev range**')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -296,7 +296,7 @@ endnode_elev_plot
 
 endnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=are_km2, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('h) End area')+
+  ggtitle('h) End area**')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -311,7 +311,7 @@ endnode_area_plot
 
 endnode_protection_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=endnode_pct_protected, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('i) End % protected')+
+  ggtitle('i) End protected**')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -326,7 +326,7 @@ endnode_protection_plot
 
 startnode_elev_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=StartNode_elevrange_m, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('j) Start elev range')+
+  ggtitle('j) Start elev range^')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
@@ -340,7 +340,7 @@ startnode_elev_plot
 
 startnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=StartNode_areakm2, fill=priority_index_level)) + 
   geom_boxplot()+
-  ggtitle('k) Start area')+
+  ggtitle('k) Start area*')+
   theme_classic()+
   theme(axis.text.x=element_text(color='black'),
         axis.text.y=element_text(color='black'),
