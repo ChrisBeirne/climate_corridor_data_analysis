@@ -1,6 +1,6 @@
 ############ Ecological/conservation status of climate corridors ##############
 # Date: 8-1-23
-# updated: 8-11-23; reexport plots with updated data
+# updated: 9-14-23; reexport boxplots with box for all countries
 # Author: Ian McCullough, immccull@gmail.com
 ###############################################################################
 
@@ -519,10 +519,10 @@ LCP_biomass_plot
 #    LCP_biomass_plot
 # dev.off()
 
-jpeg('Figures/multipanel_EcologicalConservationStatus.jpeg',width = 6,height = 8,units = 'in',res=600)
-    grid.arrange(end_node_area_plot, end_node_elevation_plot, LCP_length_plot, LCP_elevation_plot, LCP_PAcount_plot, LCP_pct_protected_plot, 
-                 LCP_KBAcount_plot, LCP_biomass_plot, nrow=4)
-dev.off()
+# jpeg('Figures/multipanel_EcologicalConservationStatus.jpeg',width = 6,height = 8,units = 'in',res=600)
+#     grid.arrange(end_node_area_plot, end_node_elevation_plot, LCP_length_plot, LCP_elevation_plot, LCP_PAcount_plot, LCP_pct_protected_plot, 
+#                  LCP_KBAcount_plot, LCP_biomass_plot, nrow=4)
+# dev.off()
 
 #### Count international crossings for each LCP ####
 # makes sense to use all countries, but filter out later ones only in MX and Colombia
@@ -611,8 +611,8 @@ full_LCP_df7 <- subset(full_LCP_df, iso_a3 %in% c('BLZ','CRI','GTM','NIC','HND',
 country_colors7 <- c('BLZ'='blue','CRI'='forestgreen','GTM'='orange','HND'='firebrick',
                      'NIC'='turquoise','PAN'='khaki','SLV'='chartreuse')
 
-country_colors <- c('BLZ'='blue','COL'='gold','CRI'='forestgreen','GTM'='orange','HND'='firebrick',
-                    'MEX'='gray','NIC'='turquoise','PAN'='khaki','SLV'='chartreuse')
+country_colors <- c('All'='gray', 'BLZ'='blue','COL'='gold','CRI'='forestgreen','GTM'='orange','HND'='firebrick',
+                    'MEX'='purple','NIC'='turquoise','PAN'='khaki','SLV'='chartreuse')
 
 
 nrow(subset(full_LCP_df7, nCountries==1))
@@ -632,6 +632,12 @@ primary_country_LCP_summary <- full_LCP_df %>%
   dplyr::summarize(nLCPs=n(),
                    totalLCP_length_km=sum(LCP_length_km))%>%
   as.data.frame()
+
+# add all country category
+full_LCP_df_trick <- full_LCP_df
+full_LCP_df_trick$iso_a3 <- 'All'
+
+full_LCP_df <- rbind.data.frame(full_LCP_df_trick, full_LCP_df)
 
 country_corridor_length_plot <- ggplot(data=full_LCP_df, aes(y=LCP_length_km, x=iso_a3, fill=iso_a3)) +
   geom_boxplot()+
@@ -711,10 +717,10 @@ country_corridor_elevation_plot <- ggplot(data=full_LCP_df, aes(y=range_m, x=iso
         axis.title.x=element_blank(),
         plot.title=element_text(size=12),
         legend.position=c('none'))+
-  scale_y_continuous(name='Elevational breadth (m)', limits=c())+
+  scale_y_continuous(name='Elevational range (m)', limits=c())+
   scale_x_discrete(name='Country')+
   scale_fill_manual(values=country_colors)+
-  ggtitle("b) Elevational breadth")
+  ggtitle("b) Elevational range")
 country_corridor_elevation_plot
 
 jpeg('Figures/multipanel_CountryEcologicalConservationStatus.jpeg',width = 6,height = 8,units = 'in',res=600)

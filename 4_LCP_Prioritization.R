@@ -1,6 +1,6 @@
 ##################### Climate corridor prioritization #########################
 # Date: 8-8-23
-# updated: 8-18-23; add significance indicators to plot
+# updated: 9-14-23; log transform some variables in boxplots
 # Author: Ian McCullough, immccull@gmail.com
 ###############################################################################
 
@@ -88,7 +88,7 @@ plot_ly(pca_scores$Comp.1, y=pca_scores$Comp.2, z=pca_scores$Comp.3,
         type="scatter3d", mode="markers", size=1, color=pca_variable_df$iso_a3)
 
 
-unique_colors <- c("blue","gold","forestgreen","orange","firebrick","gray","turquoise","khaki","chartreuse")
+unique_colors <- c("blue","gold","forestgreen","orange","firebrick","purple","turquoise","khaki","chartreuse")
 colors_hex <- col2hex(unique_colors)
 colors_hex <- colors_hex[as.numeric(as.factor(pca_variable_df$iso_a3))]
 scatt <- scatterplot3d(pca_scores[,1:3], pch = 16, color=colors_hex, grid=T, box=T)
@@ -294,7 +294,7 @@ endnode_elev_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=endnode
   scale_fill_manual(values=c('gold','orange','gray'))
 endnode_elev_plot
 
-endnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=are_km2, fill=priority_index_level)) + 
+endnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=log(are_km2), fill=priority_index_level)) + 
   geom_boxplot()+
   ggtitle('h) End area**')+
   theme_classic()+
@@ -304,8 +304,8 @@ endnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=are_km2
         axis.title.x=element_blank(),
         legend.position='none')+
   #xlab('Priority index level')+
-  #ylab('Area (km2)')+
-  scale_y_continuous(name='Area (km2)', limits=c())+
+  #ylab('log(Area (sq km)'))+
+  scale_y_continuous(name='log(Area (sq km))', limits=c())+
   scale_fill_manual(values=c('gold','orange','gray'))
 endnode_area_plot
 
@@ -324,7 +324,7 @@ endnode_protection_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=e
   scale_fill_manual(values=c('gold','orange','gray'))
 endnode_protection_plot
 
-startnode_elev_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=StartNode_elevrange_m, fill=priority_index_level)) + 
+startnode_elev_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=log(StartNode_elevrange_m), fill=priority_index_level)) + 
   geom_boxplot()+
   ggtitle('j) Start elev range^')+
   theme_classic()+
@@ -334,11 +334,11 @@ startnode_elev_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=Start
         axis.title.x=element_blank(),
         legend.position='none')+
   #xlab('Priority index level')+
-  ylab('Elevation (m)')+
+  ylab('log(Elevation (m))')+
   scale_fill_manual(values=c('gold','orange','gray'))
 startnode_elev_plot
 
-startnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=StartNode_areakm2, fill=priority_index_level)) + 
+startnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=log(StartNode_areakm2), fill=priority_index_level)) + 
   geom_boxplot()+
   ggtitle('k) Start area*')+
   theme_classic()+
@@ -349,7 +349,7 @@ startnode_area_plot <- ggplot(full_LCP_PCA_df, aes(priority_index_level, y=Start
         legend.position='none')+
   #xlab('Priority index level')+
   #ylab('Area (km2)')+
-  scale_y_continuous(name='Area (km2)', limits=c())+
+  scale_y_continuous(name='log(Area (sq km))', limits=c())+
   scale_fill_manual(values=c('gold','orange','gray'))
 startnode_area_plot
 
@@ -443,6 +443,12 @@ full_LCP_PCA_df %>%
 kruskal.test(full_LCP_PCA_df$endnode_elevrange_m~ full_LCP_PCA_df$priority_index_level)
 full_LCP_PCA_df %>% 
   dunn_test(endnode_elevrange_m ~ priority_index_level, p.adjust.method = "holm") 
+
+kruskal.test(log(full_LCP_PCA_df$endnode_elevrange_m)~ full_LCP_PCA_df$priority_index_level)
+
+full_LCP_PCA_df$log_endnode_elevrange_m <- log(full_LCP_PCA_df$endnode_elevrange_m)
+full_LCP_PCA_df %>% 
+  dunn_test(log_endnode_elevrange_m ~ priority_index_level, p.adjust.method = "holm") 
 
 kruskal.test(full_LCP_PCA_df$are_km2~ full_LCP_PCA_df$priority_index_level)
 full_LCP_PCA_df %>% 
