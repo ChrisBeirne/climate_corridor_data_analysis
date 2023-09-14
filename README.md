@@ -16,6 +16,9 @@ Folder containing output summary tables for manuscript
 2_Least_cost_path_models.R: perform least cost path modeling
 
 3_LCP_EcologicalConservationStatus.R: analyze ecological characteristics and conservation status of least cost paths (LCPs)
+
 4_LCP_Prioritization.R: prioritization analysis of least cost paths (LCPs)
+
 5_FormattingSummaryTables.R: creating output summary tables for manuscript
+
 6_CompareStartEndNodes.R: compare basic characteristics of start and end nodes (of least cost paths)
