@@ -12,7 +12,9 @@ Folder containing output summary tables for manuscript
 
 # R scripts
 1_data_import_and_housekeeping.R: gather and process input datasets
+
 2_Least_cost_path_models.R: perform least cost path modeling
+
 3_LCP_EcologicalConservationStatus.R: analyze ecological characteristics and conservation status of least cost paths (LCPs)
 4_LCP_Prioritization.R: prioritization analysis of least cost paths (LCPs)
 5_FormattingSummaryTables.R: creating output summary tables for manuscript
