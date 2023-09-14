@@ -1,6 +1,6 @@
 ######################## Compare start and end nodes ##########################
 # Date: 8-14-23
-# updated: 
+# updated: 9-14-23; modify axis labels
 # Author: Ian McCullough, immccull@gmail.com
 ###############################################################################
 
@@ -67,7 +67,7 @@ allnode_area_plot <- ggplot(startend_all_df, aes(x=NodeGroup, y=areakm2, fill=No
         legend.position='none',
         plot.title=element_text(size=titlefontsize),
         axis.title.x=element_blank())+
-  scale_y_continuous(name='Area (km2)', limits=c(0,100))+
+  scale_y_continuous(name='Area (sq km)', limits=c(0,100))+
   scale_fill_manual(values=c('darkkhaki','forestgreen'))
 
 allnode_elev_plot <- ggplot(startend_all_df, aes(x=NodeGroup, y=range_m, fill=NodeGroup)) + 
@@ -129,7 +129,7 @@ LCPnode_area_plot <- ggplot(startend_LCP_df, aes(x=NodeGroup, y=areakm2, fill=No
         legend.position='none',
         plot.title=element_text(size=titlefontsize),
         axis.title.x=element_blank())+
-  scale_y_continuous(name='Area (km2)', limits=c(0,100))+
+  scale_y_continuous(name='Area (sq km)', limits=c(0,100))+
   scale_fill_manual(values=c('darkkhaki','forestgreen'))
 
 LCPnode_elev_plot <- ggplot(startend_LCP_df, aes(x=NodeGroup, y=range_m, fill=NodeGroup)) + 
